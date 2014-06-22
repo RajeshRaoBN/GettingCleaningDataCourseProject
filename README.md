@@ -28,3 +28,5 @@ Good luck!
 The project is a part of Coursera DataSceince Stream Getting and Cleaning Data
 
 For more information about the course go to https://class.coursera.org/getdata-004
+
+Accompanying files include run_analysis.R which is the R script file on the data set, tidy_data_set.csv the outcome of the script file and CodeBook.md describing the tidy data set
