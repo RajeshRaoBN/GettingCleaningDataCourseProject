@@ -71,6 +71,8 @@ trainSub <- read.table("./UCI HAR Dataset/train/subject_train.txt",header=FALSE)
 
 Variable data
 
+The class labels linked with their activity names are loaded from the activity_labels.txt file. The numbers of the testY and trainY data frames are replaced by those names:
+
 activityLabels <- read.table("./UCI HAR Dataset/activity_labels.txt",header=FALSE,colClasses="character")
 names(testY)
 names(trainY)
@@ -81,37 +83,46 @@ Convert it into factor variables
 testY$V1 <- factor(testY$V1,levels=activityLabels$V1,labels=activityLabels$V2)
 trainY$V1 <- factor(trainY$V1,levels=activityLabels$V1,labels=activityLabels$V2)
 
-4. Appropriately labels the data set with descriptive variable names. 
+Appropriately labels the data set with descriptive variable names. 
 Naming the variables on the data set
+
+Each data frame of the data set is labeled - using the features.txt - with the information about the variables used on the feature vector. The Activity and Subject columns are also named properly before merging them to the test and train dataset.
 
 features <- read.table("./UCI HAR Dataset/features.txt",header=FALSE,colClasses="character")
 names(features)
 colnames(testX)<-features$V2
 colnames(trainX)<-features$V2
 
-3. Uses descriptive activity names to name the activities in the data set
+Uses descriptive activity names to name the activities in the data set
 
 colnames(testY)<-c("Activity")
 colnames(trainY)<-c("Activity")
 colnames(testSub)<-c("Subject")
 colnames(trainSub)<-c("Subject")
 
-1. Merges the training and the test sets to create one data set.
+Merges the training and the test sets to create one data set.
 Note we are using rbind and cbind instead of merge as the rows and columns match.
 Check this in the RStudio Enviornment window or use str() to confirm
+The Activity and Subject columns are appended to the test and train data frames, and then are both merged in the oneDataSet data frame. We first use cbind to obtain a common test and train data set and then combine both in rbind.
 
-testX<-cbind(testX,testY)
-testX<-cbind(testX,testSub)
-trainX<-cbind(trainX,trainY)
-trainX<-cbind(trainX,trainSub)
-oneDataSet<-rbind(testX,trainX)
+test<-cbind(testX,testY,testSub)
+train<-cbind(trainX,trainY,trainSub)
+oneDataSet<-rbind(test,train)
 
-2. extract only the measurements on the mean and standard deviation for each measurement
+extract only the measurements on the mean and standard deviation for each measurement
+
+mean() and sd() are used against oneDataSet via sapply() to extract the requested measurements.
 
 oneDataSetMean<-sapply(oneDataSet,mean,na.rm=TRUE)
 oneDataSetSD<-sapply(oneDataSet,sd,na.rm=TRUE)
 
-5. Creates a second, independent tidy data set with the average of each variable for each activity and each subject.
+A warning is returned for the Activity column because it's not numeric. This does not impact the calcucation of the rest and NA is stored in the new data frames instead, since mean and sd are not applicable in this case. The same applies for Subject where we're not interested about the mean and sd, but since it's numeric already there is no warning.
+
+Creates a second, independent tidy data set with the average of each variable for each activity and each subject.
+
+Finaly the desired result, a tidy data table is created with the average of each measurement per activity/subject combination. The new dataset is saved in tidy_data_set.csv file.
+
+Creates a second, independent tidy data set with the average of each variable for each activity and each subject.
 Use data.table() function to convert the final data into a data table. Use lapply
 Finally write it into a csv file called tidy_data_set.csv
 
