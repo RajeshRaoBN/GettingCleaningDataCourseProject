@@ -36,11 +36,9 @@ colnames(trainSub)<-c("Subject")
 # 1. Merges the training and the test sets to create one data set.
 # Note we are using rbind and cbind instead of merge as the rows and columns match.
 # Check this in the RStudio Enviornment window or use str() to confirm
-testX<-cbind(testX,testY)
-testX<-cbind(testX,testSub)
-trainX<-cbind(trainX,trainY)
-trainX<-cbind(trainX,trainSub)
-oneDataSet<-rbind(testX,trainX)
+test<-cbind(testX,testY,testSub)
+train<-cbind(trainX,trainY,trainSub)
+oneDataSet<-rbind(test,train)
 
 # 2. extract only the measurements on the mean and standard deviation for each measurement
 oneDataSetMean<-sapply(oneDataSet,mean,na.rm=TRUE)
