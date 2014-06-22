@@ -29,4 +29,9 @@ The project is a part of Coursera DataSceince Stream Getting and Cleaning Data
 
 For more information about the course go to https://class.coursera.org/getdata-004
 
-Accompanying files include run_analysis.R which is the R script file on the data set, tidy_data_set.csv the outcome of the script file and CodeBook.md describing the tidy data set
+Accompanying files include run_analysis.R which is the R script file on the data set, tidy_data_set.csv the outcome of the script file and CodeBook.md describing the code step by step.
+
+The run_analysis.R when run on RStudio will generate tidy_data_set.csv which is loaded as tidy_data_set.txt in the coursera submission page as coursera does not accept csv files. Instruction as to how to load the text file into RStudio and view it is given below:
+TDS <- read.delim("~/tidy_data_set.txt")
+View(TDS)
+Download the dataset from the link above.
